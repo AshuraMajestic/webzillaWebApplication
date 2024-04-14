@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary page</title>
+    <link rel="stylesheet" href="/css/summary.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    {{>Navbar}}
+    <div class="placed-style container">
+        <div class="container-fluid placed row">
+            <h1 class="col-12">Order Confirmation</h1>
+            <div class="detail col-12">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><label for="name">Name:</label></td>
+                            <td><span>{{formData.firstName}} {{formData.lastName}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><label for="mail">Email:</label></td>
+                            <td><span>{{formData.Email}}</span></td>
+
+
+
+                        </tr>
+                        <tr>
+                            <td><label for="phone">Phone Number:</label></td>
+                            <td><span>{{formData.number}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Address">Address:</label></td>
+                            <td><span>{{formData.address}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Address">City:</label></td>
+                            <td><span>{{formData.City}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Address">State:</label></td>
+                            <td><span>{{formData.State}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Address">Zip Code:</label></td>
+                            <td><span>{{formData.ZipCode}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Address">Country:</label></td>
+                            <td><span>{{formData.country}}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="summary">
+                <h1>Order Summary</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>SubTotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {{#each cartdata}}
+                        <tr>
+                            <td class="image">
+                                <figure><img src="{{this.productImage}}" alt="{{this.productName}}" srcset="" />
+                                </figure>
+                            </td>
+                            <td class="name">{{this.productName}}</td>
+                            <td class="name">
+                                {{this.quantity}}
+                            </td>
+                            <td class="subtotal">₹{{multiply this.quantity this.productPrice}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <div class="info">
+                    <div class="subtotal2">
+                        <p><span class="label"> SUBTOTAL:</span><span class="money">₹ 0.00</span></p>
+                    </div>
+                    <div class="delivery">
+                        <p><span class="label"> DELIVERY:</span><span class="money">₹ 0.00</span></p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="grandtotal">
+                        <p><span class="label"> GRAND TOTAL:</span><span class="money">₹ 0.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <p>Payment type: <span>{{formData.paymentOption}}</span></p>
+            <a href="/{{link}}/ordered"><Button class="btn">Continue</Button></a>
+        </div>
+    </div>
+    {{>footer}}
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+
+    <script> $(document).ready(function () {
+            // Function to update grand total
+            function updateGrandTotal() {
+                var subtotal = 0;
+
+                // Loop through each row in the table
+                $("tbody tr").each(function () {
+                    var subtotal2 = parseFloat($(this).find(".subtotal").text().substring(1)); // Remove '₹' symbol
+                    subtotal += subtotal2;
+                });
+
+                var delivery = parseFloat($(".delivery .money").text().substring(2)); // Get delivery charge
+                var grandTotal = subtotal + delivery; // Calculate grand total
+                $(".grandtotal .money").text("₹ " + grandTotal.toFixed(2)); // Update grand total in HTML
+            }
+
+            // Function to update totals
+            function updateTotals() {
+                var subtotal = 0;
+
+                // Loop through each row in the table to calculate subtotal
+                $("tbody tr").each(function () {
+                    var subtotalValue = parseFloat($(this).find(".subtotal").text().substring(1)); // Remove '₹' symbol
+                    subtotal += subtotalValue;
+                });
+
+                // Update subtotal in HTML
+                $(".subtotal2 .money").text("₹ " + subtotal.toFixed(2));
+
+                // Update grand total
+                updateGrandTotal();
+            }
+
+            // Call updateTotals() initially to calculate and display totals when the page loads
+            updateTotals();
+        }
+    </script>
+
+</body>
+
+</html>

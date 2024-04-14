@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary page</title>
+    <link rel="stylesheet" href="/css/ordered.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    {{>Navbar}}
+    <div class="ordered-style container row">
+
+        <figure class="image-fluid col-12">
+            <img src="/img/truck.gif" alt="">
+        </figure>
+        <h1 class="col-12">Thank you For shopping</h1>
+        <h4 class="col-12">Redirecting to home page</h4>
+    </div>
+    {{>footer}}
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+
+        setTimeout(function () {
+            window.location.href = "/{{link}}"; // Change this to your home page URL
+        }, 3000); 
+    </script>
+</body>
+
+</html>

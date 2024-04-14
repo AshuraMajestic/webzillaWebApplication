@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="/css/checkout.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    {{>Navbar}}
+    <div class="checkout-style container">
+        <div class="container-fluid checkout">
+            <div class="row my-5">
+                <div class="col-12 my-5 left-side">
+                    <form action="/{{link}}/order" method="post">
+                        <div class="form-row summary">
+                            <h1>Order Summary</h1>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>SubTotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each cartData}}
+                                    <tr>
+                                        <td class="image">
+                                            <figure><img src="{{this.productImage}}" alt="{{this.productName}}"
+                                                    srcset="" />
+                                            </figure>
+                                        </td>
+                                        <td class="name">{{this.productName}}</td>
+                                        <td class="name">
+                                            {{this.quantity}}
+                                        </td>
+                                        <td class="subtotal">₹{{multiply this.quantity this.productPrice}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            <div class="info">
+                                <div class="subtotal2">
+                                    <p><span class="label"> SUBTOTAL:</span><span class="money">₹ 0.00</span></p>
+                                </div>
+                                <div class="delivery">
+                                    <p><span class="label"> DELIVERY:</span><span class="money">₹ 0.00</span></p>
+                                </div>
+                                <div class="line"></div>
+                                <div class="grandtotal">
+                                    <p><span class="label"> GRAND TOTAL:</span><span class="money">₹ 0.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="form-row contact">
+                            <h1>Contact</h1>
+                            <input type="hidden" name="link" value="{{link}}">
+                            <div class="form-group mail col-md-12 labelled">
+                                <input type="email" class="form-control" id="inputEmail4" name="Email" required>
+                                <label for="inputEmail4" class="mail">Email</label>
+                                <span class="warning-message"></span>
+                            </div>
+                            <div class="form-group check">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck" name="AcceptEmail">
+                                    <label class="form-check-label" for="gridCheck">
+                                        Email me with News and Offers
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line"></div>
+                        <div class="form-row delivery mt-5">
+                            <h1>Delivery</h1>
+
+                            <div id="countryRegion" class="form-group col-md-12 Region mt-3 labelled">
+                                <select id="countryRegionSelect" class="form-control" name="country" required>
+                                    <option></option>
+                                    <option value="IN">India</option>
+                                    <option value="US">United States</option>
+                                    <option value="SG">Singapore</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="AT">Austria</option>
+                                    <option value="BE">Belgium</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="CZ">Czechia</option>
+                                    <option value="DK">Denmark</option>
+                                    <option value="FI">Finland</option>
+                                    <option value="FR">France</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="HK">Hong Kong SAR</option>
+                                    <option value="IN">India</option>
+                                    <option value="IE">Ireland</option>
+                                    <option value="IL">Israel</option>
+                                    <option value="IT">Italy</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="MY">Malaysia</option>
+                                    <option value="NL">Netherlands</option>
+                                    <option value="NZ">New Zealand</option>
+                                    <option value="NO">Norway</option>
+                                    <option value="PL">Poland</option>
+                                    <option value="PT">Portugal</option>
+                                    <option value="SG">Singapore</option>
+                                    <option value="KR">South Korea</option>
+                                    <option value="ES">Spain</option>
+                                    <option value="SE">Sweden</option>
+                                    <option value="CH">Switzerland</option>
+                                    <option value="AE">United Arab Emirates</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="US">United States</option>
+                                </select>
+                                <label for="countryRegionSelect">Country/Region</label>
+                            </div>
+                            <div class="col-md-12 row">
+                                <div class="form-group col-md-6 labelled mt-3">
+                                    <input type="text" class="form-control" id="inputFirstName" name="firstName"
+                                        required>
+                                    <label for="inputFirstName">First Name</label>
+                                </div>
+                                <div class="form-group col-md-6 labelled mt-3">
+                                    <input type="text" class="form-control" id="inputLastName" name="lastName" required>
+                                    <label for="inputLastName">Last Name</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 address">
+                                <input type="text" class="form-control" id="inputAddress" placeholder="Address" required
+                                    name="address">
+                            </div>
+
+                            <div class="col-md-12 row">
+                                <div class="form-group col-md-4 labelled">
+                                    <input type="text" class="form-control" id="inputCity" required name="City">
+                                    <label for="inputCity">City</label>
+                                </div>
+                                <div class="form-group col-md-4  labelled">
+                                    <input type="text" class="form-control" id="inputState" required name="State">
+                                    <label for="inputState">State</label>
+                                </div>
+                                <div class="form-group col-md-4 labelled">
+                                    <input type="number" class="form-control" id="inputZip" required name="ZipCode">
+                                    <label for="inputZip">Zip Code</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 labelled">
+                                <input type="tel" class="form-control" id="inputPhone" required name="number">
+                                <label for="inputPhone">Phone Number</label>
+                            </div>
+                            <div class="form-group check col-md-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck"
+                                        name="save for next time">
+                                    <label class="form-check-label" for="gridCheck">
+                                        Save this information for next time
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                        <div class="form-row billing-address">
+                            <h1>Payment</h1>
+                            <p>All transactions are secure and encrypted.</p>
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <div class="upper active" for="radioCollapseOne" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <input class="accordion-radio" type="radio" id="radioCollapseOne"
+                                            name="paymentOption" value="UPI" checked for="radioCollapseOne"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                        <label class="accordion-header" for="radioCollapseOne" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                            UPI Payment
+                                        </label>
+                                    </div>
+                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>IMPORTANT NOTICE : Please manually make payment to 7984492277@paytm After
+                                                clicking complete order you will receive confirmation email. But order
+                                                will be confirmed only after payment is received.</p>
+                                            <p>IMPORTANT NOTICE: if the UPI you are using has different name from the
+                                                one used for the order, Please write the name used in order as note
+                                                while making payment</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <div class="upper" for="radioCollapseThree" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        <input class="accordion-radio" type="radio" id="radioCollapseThree"
+                                            name="paymentOption" value="Cash On Delivery" for="radioCollapseThree"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree" />
+                                        <label class="accordion-header" for="radioCollapseThree"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree">
+                                            Cash On Delivery
+                                        </label>
+                                    </div>
+                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            You will Receive a call to confirm your Location and then we will proceed
+                                            with the delivery.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row submit-btn mt-5">
+                            <button type="submit" class="btn">Complete Order</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    {{>footer}}
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            function updateTotals() {
+                var subtotal = 0;
+                $("tbody tr").each(function () {
+                    subtotal += parseFloat($(this).find(".subtotal").text().substring(1));
+                });
+                $(".subtotal2 .money").text("₹ " + subtotal.toFixed(2));
+                var delivery = parseFloat($(".delivery .money").text().substring(2));
+                var grandTotal = subtotal + delivery;
+                $(".grandtotal .money").text("₹ " + grandTotal.toFixed(2));
+            }
+
+            updateTotals();
+            $('#checkoutForm').on('submit', function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.post('/{{link}}/order', formData)
+                    .done(function (response) {
+                        if (response.orderNumber) {
+                            window.location.href = `/${link}/placed?orderNumber=${response.orderNumber}`;
+                        } else {
+                            console.error("Error occurred while processing the order.");
+                            // Optionally display an error message to the user
+                        }
+                    })
+                    .fail(function (error) {
+                        console.error("Error occurred while processing the order:", error);
+                        // Optionally handle error case
+                    });
+            });
+
+
+            const inputField = document.getElementById('inputEmail4');
+            inputField.addEventListener('input', function () {
+                if (this.value.trim() === '') {
+                    this.parentElement.classList.remove('active');
+                } else {
+                    this.parentElement.classList.add('active');
+                }
+            });
+
+            const requiredFields = document.querySelectorAll('input[required]');
+            requiredFields.forEach(function (field) {
+                field.addEventListener('input', function () {
+                    const warningMessage = field.parentElement.querySelector('.warning-message');
+                    if (!field.value.trim()) {
+                        warningMessage.textContent = 'This field is required.';
+                    } else {
+                        warningMessage.textContent = '';
+                    }
+                });
+            });
+
+            const labelledInputs = document.querySelectorAll('.form-group input');
+            labelledInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    if (input.value.trim() === '') {
+                        input.classList.remove('filled');
+                    } else {
+                        input.classList.add('filled');
+                    }
+                });
+                if (input.value.trim() !== '') {
+                    input.classList.add('filled');
+                }
+            });
+
+            const selectInputs = document.querySelectorAll('.form-group.Region select');
+            selectInputs.forEach(function (select) {
+                select.addEventListener('change', function () {
+                    const formGroup = select.closest('.form-group');
+                    if (select.value.trim() === '') {
+                        formGroup.classList.remove('filled');
+                    } else {
+                        formGroup.classList.add('filled');
+                    }
+                });
+                if (select.value.trim() !== '') {
+                    select.closest('.form-group').classList.add('filled');
+                }
+            });
+        });
+
+    </script>
+    <script>var accordions = document.querySelectorAll('.upper');
+        accordions.forEach(function (item) {
+            item.addEventListener('click', function () {
+                var radio = this.querySelector('.accordion-radio');
+                if (!radio.checked) {
+                    radio.checked = true;
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var accordions = document.querySelectorAll('.upper');
+            accordions.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    accordions.forEach(function (accordion) {
+                        if (accordion !== item) {
+                            accordion.classList.remove('active');
+                        }
+                    });
+                    this.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" href="css/main.css" />
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+  {{>Navbar}}
+  <div class="header">
+    <figure>
+      <div class="cover"></div>
+      <img src="/img/placeholder.png" data-src="{{Banner}}" alt="" srcset="" class="img-fluid" loading="lazy" />
+      {{!-- <img src="{{Banner}}" alt="" class="img-fluid" srcset="" /> --}}
+    </figure>
+  </div>
+  <section class="products center container">
+    <div class="product row" id="productContainer">
+      {{#each productdata}}
+      <div class="col-lg-3 col-md-3 col-sm-6 col-6 product product-selector"
+        onclick="changeToProductDetail('{{this.name}}')">
+        <figure>
+          <img src="/img/placeholder.png" data-src="{{this.images.image_0}}" alt="{{this.name}}" srcset=""
+            loading="lazy" />
+        </figure>
+        <h6>{{this.name}}</h6>
+        <p class="category-text">{{this.category}}</p>
+        {{#if this.DiscountedPrice}}
+        <p> <span class="discounted">₹{{this.DiscountedPrice}}</span>
+          <s class="ms-1" style="color: #8b8989;">₹{{this.price}}</s>
+        </p> {{else}} <p>₹{{this.price}}</p>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+  </section>
+  <div class="viewall row center">
+    <button>View All</button>
+  </div>
+  <div class="line"></div>
+  <section class="categorys center container">
+    <div class="category row">
+      <div class="title center">
+        <p class="sub-title">Choose the category from which you want to list
+          products</p>
+      </div>
+      <div class="row cat">
+        {{#compare categoryLength 1}}
+        {{#each category}}
+        <div class="col-12 col-lg-12 col-sm-12 col-md-12 one-class">
+          <div class="inner">
+            <figure>
+              <img src="{{this.image}}" alt="">
+            </figure>
+            <div class="option">
+              <span>{{this.name}}</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        {{else compare categoryLength 2}}
+        {{#each category}}
+        <div class="col-12 col-lg-6 col-sm-12 col-md-6 two-class">
+          <div class="inner">
+            <figure>
+              <img src="{{this.image}}" alt="">
+            </figure>
+            <div class="option">
+              <span>{{this.name}}</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        {{else compare categoryLength 3}}
+        {{#each category}}
+        {{#if @first}}
+        <div class="col-12 col-lg-7 col-sm-12 col-md-7 third-class-1">
+          <figure class="fig1">
+            <img src="{{this.image}}" alt="" srcset="" />
+          </figure>
+          <div class="option">
+            <span>{{this.name}}</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </div>
+        {{else}}
+        {{/if}}
+        {{/each}}
+
+        <div class="col-12 col-lg-5 col-sm-12 col-md-5 third-class-2 right-side">
+          <div class="row">
+            {{#each category}}
+            {{#if @first}}
+            {{else}}
+            <div class="col-lg-12 col-md-12 col-12 col-sm-12 categories">
+              <figure class="fig">
+                <img src="{{this.image}}" alt="" srcset="" />
+              </figure>
+              <div class="option">
+                <span>{{this.name}}</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </div>
+            {{/if}}
+            {{/each}}
+          </div>
+        </div>
+
+        {{else }}
+        <div class="inner-4 col-12 col-md-12 col-sm-12 row">
+          {{#each category}}
+          {{#if @first}}
+          <div class="col-12 col-lg-8 col-sm-12 col-md-8">
+            <figure class="fig1">
+              <img src="{{this.image}}" alt="" srcset="" />
+            </figure>
+            <div class="option">
+              <span>{{this.name}}</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+          {{/if}}
+          {{/each}}
+          <div class="col-12 col-lg-4 col-sm-12 col-md-4 right-side">
+            <div class="row">
+              {{#each category}}
+              {{#ifIndexEquals @index 1}}
+              <div class="col-lg-12 col-md-12 mt-3 col-4 col-sm-4">
+                <figure class="fig">
+                  <img src="{{this.image}}" alt="" srcset="" />
+                </figure>
+
+                <div class=" option">
+                  <span>{{this.name}}</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              </div>
+              {{/ifIndexEquals}}
+              {{#ifIndexEquals @index 2}}
+              <div class="col-lg-12 col-md-12 mt-3 col-4 col-sm-4">
+                <figure class="fig">
+                  <img src="{{this.image}}" alt="" srcset="" />
+                </figure>
+
+                <div class="option">
+                  <span>{{this.name}}</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              </div>
+              {{/ifIndexEquals}}
+              {{#ifIndexEquals @index 3}}
+              <div class="col-lg-12 col-md-12 col-4 mt-3 col-sm-4">
+                <figure class="fig">
+                  <img src="{{this.image}}" alt="" srcset="" />
+                </figure>
+
+                <div class="option">
+                  <span>OTHERS</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              </div>
+              {{/ifIndexEquals}}
+              {{/each}}
+            </div>
+          </div>
+        </div>
+        {{/compare}}
+
+
+
+      </div>
+    </div>
+  </section>
+  <div class="line"></div>
+  <section class="subscribe container center">
+    <div class="content">
+      <div class="text">
+        <span>Sign up & Save Up To 20%</span>
+      </div>
+      <div class="text2">
+        <span>Be updated on new arrivals, trends and offers. Sign up now!</span>
+      </div>
+      <div class="input center">
+        <form action="" class="row d-flex justify-content-center align-item-center w-100">
+          <input type="email" name="mail" id="email" class="col-sm-12 col-md-8 col-xs-12" placeholder="Email Address" />
+          <button type="submit" class="col-sm-5 col-xs-5 col-md-4">Submit</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <div class="line"></div>
+  {{>footer}}
+
+  <script>
+
+    function changeToProductDetail(productName) {
+      // Navigate to the product detail page using the product name
+      window.location.href = `/{{ link }}/productDetail?name=${productName}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Add click event listener to each category option
+      const categoryOptions = document.querySelectorAll('.option');
+      categoryOptions.forEach(option => {
+        option.addEventListener('click', function () {
+          const categoryName = this.querySelector('span').textContent; // Get the category name
+          window.location.href = `/{{ link }}/categoryPage`;
+        });
+      });
+    });
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="/css/productDetail.css" />
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+  {{>Navbar}}
+
+  {{!-- Main body start --}}
+
+  <div class="container-fluid main">
+    <div class="row">
+      <div class="col-md-10 col-12 mx-auto">
+        <div class="row main-style">
+          {{! left side }}
+          <div class="col-md-6 col-12 hero-text-left order-md-0 order-0">
+            <!-- Image container for col-md-6 -->
+            <div class="image-container-md show">
+              <div class="row">
+                {{#each product.images}}
+                {{#if @first}}
+                <div class="col-12 mt-3">
+                  <img class="w-100" src="{{this}}" alt="">
+                </div>
+                {{else}}
+                <div class="col-6 mt-3">
+                  <img class="w-100" src="{{this}}" alt="">
+                </div>
+                {{/if}}
+                {{/each}}
+              </div>
+            </div>
+            <!-- Carousel container for col-12 -->
+
+            <div class="carousel-container w-100 hide">
+              <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  {{#each product.images}}
+                  <div class="carousel-item {{#if @first}}active{{/if}}">
+                    <img src="{{this}}" class="d-block w-100" alt="Product Image">
+                  </div>
+                  {{/each}}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel"
+                  data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel"
+                  data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {{! right side }}
+          <div
+            class="col-md-6 col-12 hero-text-right order-md-1 order-1 justify-content-center align-items-start flex-column sticky">
+            <div class="sticky">
+              <p class="shopname">{{shopname}}</p>
+              <h1>{{product.name}}</h1>
+              <div class="price">
+                {{#if product.DiscountedPrice}}
+                <s class="price2">₹{{product.price}}</s>
+                <span class="discount">₹{{product.DiscountedPrice}}</span>
+                <span class="sale">Sale</span>
+                {{else}}
+                ₹{{product.price}}
+                <span class="sale">Sale</span>
+                {{/if}}
+              </div>
+              <div class="sizes">
+                <p>Sizes</p>
+                {{#each product.sizes}}
+                <input type="radio" id="{{this.size}}" name="size" value="{{this.size}}" {{#if @first}}checked{{/if}}>
+                <label for="{{this.size}}">
+                  {{this.size}}
+                </label>
+                {{/each}}
+              </div>
+              <div class="colors">
+                <p>Color</p>
+                {{#each product.color}}
+                <input type="radio" id="{{this}}" name="color" value="{{this}}" {{#if @first}}checked{{/if}}>
+                <label for="{{this}}"><span class="{{this}}"></span></label>
+                {{/each}}
+              </div>
+              <div class="quantity">
+                <p>Quantity</p>
+                <div class="quantity-input">
+                  <button class="decrement-btn">-</button>
+                  <input type="number" class="quantity-field" value="1" min="1" name="quantity" readonly>
+                  <button class="increment-btn">+</button>
+                </div>
+              </div>
+              <div class="button-class">
+                <button id="addToCart" class="btn button" data-product-Image="{{product.images.image_0}}">Add to
+                  Cart</button>
+                <button id="buyNow" class="btn button" data-product-Image="{{product.images.image_0}}">Buy Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="addToCartPopup" class="add-to-cart-popup">
+      <div class="popup-content row">
+        <figure class="col-12">
+          <img id="productImage" src="" alt="">
+        </figure>
+        <div class="col-12 center">
+          <span id="productName"></span>
+        </div>
+        <div class="col-12 center">
+          <p id="productPrice"></p>
+        </div>
+        <div class="col-12 center">
+          <button id="checkoutBtn" class="btn">Checkout</button>
+        </div>
+      </div>
+      <button id="cancelBtn" class="btn">X</button>
+    </div>
+  </div>
+
+
+  {{!-- Main body end --}}
+
+
+
+
+
+  {{>footer}}
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const buynow = document.getElementById('buyNow');
+      const link = "{{ link }}";
+      buynow.addEventListener('click', function () {
+        let productName = "{{product.name}}";
+        let productPrice = "{{product.price}}";
+        let productImage = this.getAttribute('data-product-image');
+        let quantity = document.querySelector('.quantity-field').value;
+        let selectedSize = 1;
+        selectedSize = document.querySelector('input[name="size"]:checked').value;
+        let selectedColor = document.querySelector('input[name="color"]:checked').value;
+        if ("{{product.DiscountedPrice}}") {
+          productPrice = "{{product.DiscountedPrice}}"; // Use the discounted price
+        }
+        const formData = {
+          productName: productName,
+          productPrice: productPrice,
+          productImage: productImage,
+          quantity: parseInt(quantity), // You can set the initial quantity here
+          size: selectedSize,
+          color: selectedColor,
+          subtotal: parseFloat(productPrice) // Assuming subtotal is same as product price initially
+        };
+        // Send AJAX POST request to server
+        fetch(`/${link}/productDetail/addToCart`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(response => response.json())
+          .then(data => {
+            window.location.href = `/{{link}}/Cart`;
+          })
+      });
+
+      const addToCartButton = document.getElementById('addToCart');
+      addToCartButton.addEventListener('click', function () {
+        let productName = "{{product.name}}";
+        let productPrice = "{{product.price}}";
+        let productImage = this.getAttribute('data-product-image');
+        let quantity = document.querySelector('.quantity-field').value;
+        let selectedSize = document.querySelector('input[name="size"]:checked').value;
+        let selectedColor = document.querySelector('input[name="color"]:checked').value;
+        if ("{{product.DiscountedPrice}}") {
+          productPrice = "{{product.DiscountedPrice}}"; // Use the discounted price
+        }
+        const formData = {
+          productName: productName,
+          productPrice: productPrice,
+          productImage: productImage,
+          quantity: parseInt(quantity), // You can set the initial quantity here
+          size: selectedSize,
+          color: selectedColor,
+          subtotal: parseFloat(productPrice) // Assuming subtotal is same as product price initially
+        };
+        // Send AJAX POST request to server
+        fetch(`/${link}/productDetail/addToCart`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(response => response.json())
+          .then(data => {
+
+            showPopup(productName, productPrice, productImage);
+
+          })
+      });
+      // Get the cancel button element
+      const cancelButton = document.getElementById('cancelBtn');
+
+      // Add click event listener to the cancel button
+      cancelButton.addEventListener('click', function () {
+        // Hide the add to cart popup
+        document.getElementById('addToCartPopup').style.display = 'none';
+      });
+
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      checkoutBtn.addEventListener('click', function () {
+        window.location.href = `/{{link}}/Cart`;
+      });
+
+      const incrementButton = document.querySelector('.increment-btn');
+      const decrementButton = document.querySelector('.decrement-btn');
+      const quantityInput = document.querySelector('.quantity-field');
+
+
+      incrementButton.addEventListener('click', function () {
+        // Increment the quantity by 1
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+      });
+
+
+      decrementButton.addEventListener('click', function () {
+
+        if (parseInt(quantityInput.value) > 1) {
+
+          quantityInput.value = parseInt(quantityInput.value) - 1;
+        }
+      });
+      const carouselContainer = document.querySelector('.carousel-container');
+      const imageContainer = document.querySelector('.image-container-md');
+
+      // Function to handle viewport width change
+      function handleViewportWidthChange() {
+        if (window.innerWidth < 768) {
+          carouselContainer.classList.remove('hide');
+          carouselContainer.classList.add('show');
+          imageContainer.classList.remove('show');
+          imageContainer.classList.add('hide');
+        } else {
+          carouselContainer.classList.remove('show');
+          carouselContainer.classList.add('hide');
+          imageContainer.classList.remove('hide');
+          imageContainer.classList.add('show');
+        }
+      }
+
+      // Call the function initially
+      handleViewportWidthChange();
+
+      // Listen for viewport width change
+      window.addEventListener('resize', handleViewportWidthChange);
+    });
+
+  </script>
+
+  <script>
+    function showPopup(productName, productPrice, productImage) {
+      // Set popup content
+      document.getElementById('productName').innerText = productName;
+      document.getElementById('productPrice').innerText = 'Price: ₹' + productPrice;
+      document.getElementById('productImage').src = productImage;
+      // Show popup
+      document.getElementById('addToCartPopup').style.opacity = '1';
+    }
+
+  </script>
+</body>
+
+</html

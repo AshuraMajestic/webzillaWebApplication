@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg bg-light fixed-top">
+  <div class="container">
+    <button class="navbar-toggler shadow-none  border-0" type="button" data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a class="navbar-brand" href="/{{link}}">
+      <img src="/img/placeholder.png" data-src="{{logoLink}}" alt="" srcset="" loading="lazy" />
+      {{shopname}}</a>
+
+    <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+      aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel"> <img src="/img/placeholder.png" data-src="{{logoLink}}"
+            alt="" srcset="" loading="lazy" />
+          {{shopname}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="bodynav offcanvas-body ">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item active">
+            <a class="nav-link" href="/Search">
+              <i class="fa-solid fa-magnifying-glass"></i><span class="d-lg-none ms-4">Search</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/{{link}}/Cart">
+              <i id="cart-icon" class="fa-solid fa-cart-shopping"></i>
+              <div class="cart-badge"></div><span class="d-lg-none ms-4">Shopping Cart</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Profile">
+              <i class="fa-regular fa-user"></i><span class="d-lg-none ms-4">User</span>
+            </a>
+          </li>
+
+      </div>
+    </div>
+  </div>
+</nav>
+<script>
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const images = document.querySelectorAll('img[data-src]');
+    images.forEach(img => {
+      img.src = img.getAttribute('data-src');
+      img.onload = function () {
+        img.removeAttribute('data-src');
+      };
+    });
+  });
+</script>

@@ -1,0 +1,258 @@
+@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+  font-family: "Assistant", "sans-serif" !important;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.row {
+  width: 100%;
+}
+
+.navbar .bodynav {
+  margin-right: 48px;
+  position: relative; /* Add this line */
+}
+.navbar .bodynav .nav-item {
+  margin-right: 24px;
+  position: relative; /* Add this line */
+}
+.navbar .bodynav .nav-item i {
+  font-size: 18px;
+}
+.navbar .bodynav .nav-item div.cart-badge {
+  position: absolute; /* Change from relative to absolute */
+  top: 50%; /* Position it in the middle vertically */
+  right: 0; /* Position it at the right edge */
+  transform: translate(50%, -50%); /* Center it properly */
+  background-color: red;
+  color: white;
+  display: none;
+  border-radius: 50%;
+  width: 20px; /* Adjust the width and height for the desired size */
+  height: 20px;
+  text-align: center;
+  font-size: 12px; /* Adjust the font size for the count */
+  font-weight: bold;
+}
+.navbar .navbar-brand {
+  margin-left: 9rem;
+  font-size: 18px;
+  font-weight: 700;
+  color: #4d4d4d;
+  line-height: 26px;
+}
+.navbar .navbar-brand img {
+  height: 40px;
+  width: 40px;
+  margin-right: 0.5rem;
+}
+
+@media screen and (max-width: 991px) {
+  .sidebar {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .sidebar .offcanvas-header img {
+    width: 40px;
+    height: 40px;
+  }
+  .navbar-brand {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+}
+.placed-style {
+  margin-top: 56.25px;
+}
+.placed-style .placed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.placed-style .placed h1 {
+  margin-top: 2rem;
+}
+.placed-style .placed p {
+  color: #000;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.placed-style .placed p span {
+  margin-left: 1rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #4d4d4d;
+}
+.placed-style .placed a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  text-decoration: none;
+}
+.placed-style .placed a .btn {
+  height: 5.5rem;
+  width: 70%;
+  background-color: #161f32;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  border-radius: 2rem;
+}
+.placed-style .placed .detail table {
+  border-collapse: separate;
+  border-spacing: 2rem;
+  margin-top: 2rem;
+}
+.placed-style .placed .detail table tbody tr td:nth-child(1) label {
+  font-size: 1.6rem;
+  color: black;
+  font-weight: 700;
+}
+.placed-style .placed .detail table tbody tr td:nth-child(2) span {
+  color: #4d4d4d;
+  font-size: 1.6rem;
+}
+.placed-style .placed .summary .info .subtotal2 {
+  font-size: 14px;
+  color: black;
+  font-weight: 700;
+}
+.placed-style .placed .summary .info .subtotal2 .money {
+  float: right;
+}
+.placed-style .placed .summary .info .delivery {
+  font-size: 14px;
+  color: black;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.placed-style .placed .summary .info .delivery .money {
+  float: right;
+}
+.placed-style .placed .summary .info .grandtotal {
+  margin-top: 1rem;
+  font-size: 16px;
+  color: #000;
+  font-weight: 800;
+}
+.placed-style .placed .summary .info .grandtotal .money {
+  float: right;
+}
+.placed-style .placed .summary .table {
+  border: none;
+}
+.placed-style .placed .summary .table tr {
+  border: none;
+}
+.placed-style .placed .summary .table tr td.image {
+  border: none;
+  width: 100px;
+  height: 100px;
+}
+.placed-style .placed .summary .table tr td.image figure {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.placed-style .placed .summary .table tr td.image figure img {
+  width: 80%;
+  height: 80%;
+}
+.placed-style .placed .summary .table tr td.name {
+  border: none;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: black;
+  vertical-align: middle;
+}
+.placed-style .placed .summary .table tr td.subtotal {
+  border: none;
+  vertical-align: middle;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.footer {
+  width: 100%;
+}
+.footer .row {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.footer .row .row .logo {
+  margin-bottom: 16px;
+}
+.footer .row .row .logo .inside {
+  height: 40px;
+  text-decoration: none;
+}
+.footer .row .row .logo .inside img {
+  height: 40px;
+  width: 50px;
+}
+.footer .row .row .logo .inside span {
+  color: #4d4d4d;
+  font-size: 16px;
+  margin-left: 10px;
+  font-weight: 700;
+}
+.footer .row .row h5 {
+  font-size: 18px;
+  color: black;
+  font-weight: 600;
+  line-height: 26px;
+  margin-bottom: 24px;
+}
+.footer .row .row p {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+.footer .row .row .shop a {
+  color: #4d4d4d;
+  text-decoration: none;
+  width: 100%;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.payment {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.payment .copyright {
+  font-size: 12px;
+  text-align: center;
+}
+
+@media screen and (max-width: 442px) {
+  .footer .row .row .logo .inside span {
+    margin-left: 0;
+  }
+}/*# sourceMappingURL=summary.css.map */
