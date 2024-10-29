@@ -1,3 +1,3 @@
 node_modules
-/src/conn/admin.json
+src/conn/admin.json
 .env
