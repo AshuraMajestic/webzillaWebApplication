@@ -5,20 +5,430 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    <link rel="stylesheet" href="/css/checkout.css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #4a6fdc;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --text-light: #6c757d;
+            --border-color: #e0e0e0;
+            --success-color: #28a745;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: var(--text-color);
+            background-color: #f9fafb;
+            line-height: 1.6;
+        }
+
+        .checkout-style {
+            max-width: 1200px;
+            margin-top: 10rem;
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .form-row {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .summary h1 {
+            display: flex;
+            align-items: center;
+        }
+
+        .summary h1:before {
+            content: '\f07a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .table thead th {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 1rem;
+            border: none;
+            text-align: left;
+        }
+
+        .table thead th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        .table thead th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .table .image img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .info {
+            background-color: var(--secondary-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .info p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .info .label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .info .money {
+            font-weight: 600;
+        }
+
+        .info .grandtotal {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .info .grandtotal .label,
+        .info .grandtotal .money {
+            font-weight: 700;
+        }
+
+        .line {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 1rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-control {
+            height: 50px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(74, 111, 220, 0.1);
+        }
+
+        .form-group.labelled {
+            position: relative;
+        }
+
+        .form-group.labelled label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            padding: 0 0.5rem;
+            color: var(--text-light);
+            transition: all 0.2s;
+            pointer-events: none;
+        }
+
+        .form-group.labelled.filled label,
+        .form-group.labelled input:focus + label,
+        .form-group.labelled select:focus + label {
+            top: 0;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+        }
+
+        .form-group.Region.filled label,
+        .form-group.Region select:focus + label {
+            top: 0;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+        }
+
+        .form-check-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-top: 0.25rem;
+        }
+
+        .form-check-label {
+            margin-left: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .accordion {
+            margin-top: 1.5rem;
+        }
+
+        .accordion-item {
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .upper {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem;
+            background-color: var(--secondary-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .upper:hover {
+            background-color: #e9ecef;
+        }
+
+        .upper.active {
+            background-color: #e3e9fb;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .accordion-header {
+            margin-left: 1rem;
+            font-weight: 600;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .accordion-body p {
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .submit-btn {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11);
+        }
+
+        .btn:hover {
+            background-color: #3a5fc0;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1);
+        }
+
+        .contact h1:before {
+            content: '\f0e0';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .delivery h1:before {
+            content: '\f0d1';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .billing-address h1:before {
+            content: '\f09d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .warning-message {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        /* Step indicator */
+        .checkout-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .checkout-steps:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            .form-row {
+                padding: 1.5rem 1rem;
+            }
+
+            .table thead th {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .table tbody td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .table .image img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
     {{>Navbar}}
     <div class="checkout-style container">
         <div class="container-fluid checkout">
-            <div class="row my-5">
-                <div class="col-12 my-5 left-side">
+            <!-- Checkout Steps -->
+            <div class="checkout-steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Cart</div>
+                </div>
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Checkout</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+
+            <div class="row my-4">
+                <div class="col-12 left-side">
                     <form action="/{{link}}/order" method="post">
                         <div class="form-row summary">
                             <h1>Order Summary</h1>
@@ -61,7 +471,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="line"></div>
+
                         <div class="form-row contact">
                             <h1>Contact</h1>
                             <input type="hidden" name="link" value="{{link}}">
@@ -80,8 +490,7 @@
                             </div>
                         </div>
 
-                        <div class="line"></div>
-                        <div class="form-row delivery mt-5">
+                        <div class="form-row delivery">
                             <h1>Delivery</h1>
 
                             <div id="countryRegion" class="form-group col-md-12 Region mt-3 labelled">
@@ -133,7 +542,7 @@
                                     <label for="inputLastName">Last Name</label>
                                 </div>
                             </div>
-                            <div class="form-group col-md-12 address">
+                            <div class="form-group col-md-12">
                                 <input type="text" class="form-control" id="inputAddress" placeholder="Address" required
                                     name="address">
                             </div>
@@ -143,7 +552,7 @@
                                     <input type="text" class="form-control" id="inputCity" required name="City">
                                     <label for="inputCity">City</label>
                                 </div>
-                                <div class="form-group col-md-4  labelled">
+                                <div class="form-group col-md-4 labelled">
                                     <input type="text" class="form-control" id="inputState" required name="State">
                                     <label for="inputState">State</label>
                                 </div>
@@ -166,7 +575,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="line"></div>
+
                         <div class="form-row billing-address">
                             <h1>Payment</h1>
                             <p>All transactions are secure and encrypted.</p>
@@ -222,13 +631,11 @@
                             </div>
                         </div>
 
-                        <div class="form-row submit-btn mt-5">
+                        <div class="form-row submit-btn mt-4">
                             <button type="submit" class="btn">Complete Order</button>
                         </div>
                     </form>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -237,7 +644,6 @@
 
     <!-- JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-
 
     <script>
         $(document).ready(function () {
@@ -298,12 +704,15 @@
                 input.addEventListener('input', function () {
                     if (input.value.trim() === '') {
                         input.classList.remove('filled');
+                        input.parentElement.classList.remove('filled');
                     } else {
                         input.classList.add('filled');
+                        input.parentElement.classList.add('filled');
                     }
                 });
                 if (input.value.trim() !== '') {
                     input.classList.add('filled');
+                    input.parentElement.classList.add('filled');
                 }
             });
 
@@ -323,8 +732,7 @@
             });
         });
 
-    </script>
-    <script>var accordions = document.querySelectorAll('.upper');
+        var accordions = document.querySelectorAll('.upper');
         accordions.forEach(function (item) {
             item.addEventListener('click', function () {
                 var radio = this.querySelector('.accordion-radio');

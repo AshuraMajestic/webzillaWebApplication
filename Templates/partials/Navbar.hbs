@@ -1,46 +1,93 @@
-<nav class="navbar navbar-expand-lg bg-light fixed-top">
+
+<!-- Minimal Navbar with only logo, shop name and cart button -->
+<nav class="navbar fixed-top bg-white shadow-sm">
   <div class="container">
-    <button class="navbar-toggler shadow-none  border-0" type="button" data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <a class="navbar-brand" href="/{{link}}">
-      <img src="/img/placeholder.png" data-src="{{logoLink}}" alt="" srcset="" loading="lazy" />
-      {{shopname}}</a>
-
-    <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
-      aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel"> <img src="/img/placeholder.png" data-src="{{logoLink}}"
-            alt="" srcset="" loading="lazy" />
-          {{shopname}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="bodynav offcanvas-body ">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item active">
-            <a class="nav-link" href="/Search">
-              <i class="fa-solid fa-magnifying-glass"></i><span class="d-lg-none ms-4">Search</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="/{{link}}/Cart">
-              <i id="cart-icon" class="fa-solid fa-cart-shopping"></i>
-              <div class="cart-badge"></div><span class="d-lg-none ms-4">Shopping Cart</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Profile">
-              <i class="fa-regular fa-user"></i><span class="d-lg-none ms-4">User</span>
-            </a>
-          </li>
-
-      </div>
-    </div>
+    <!-- Brand section with logo and name -->
+    <a class="navbar-brand d-flex align-items-center" href="/{{link}}">
+      <img src="{{logoLink}}" alt="{{shopname}} logo" class="me-2" width="40" height="40">
+      <span class="fw-bold">{{shopname}}</span>
+    </a>
+    
+    <!-- Cart button with counter - right aligned -->
+    <a href="/{{link}}/Cart" class="btn btn-primary position-relative px-3 rounded-pill">
+      <i class="fa-solid fa-cart-shopping me-2"></i>
+      <span>Cart</span>
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count">
+        0
+        <span class="visually-hidden">items in cart</span>
+      </span>
+    </a>
   </div>
 </nav>
+
+<!-- Script for updating cart count -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Cart counter update
+    const updateCartCount = () => {
+      // This would typically fetch from your cart service/local storage
+      const count = localStorage.getItem('cartCount') || 0;
+      const badges = document.querySelectorAll('.cart-count');
+      badges.forEach(badge => {
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'block' : 'none';
+      });
+    };
+    
+    // Initialize cart count
+    updateCartCount();
+    
+    // Custom event listener for cart updates
+    window.addEventListener('cartUpdated', updateCartCount);
+    
+    // Handle image loading if needed
+    if (document.querySelector('img[data-src]')) {
+      const images = document.querySelectorAll('img[data-src]');
+      images.forEach(img => {
+        img.src = img.getAttribute('data-src');
+        img.onload = function() {
+          img.removeAttribute('data-src');
+        };
+      });
+    }
+  });
+</script>
+
+<!-- Add this CSS to your stylesheet -->
+<style>
+  .navbar {
+    padding: 0.75rem 0;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-brand img {
+    transition: all 0.3s ease;
+    object-fit: contain;
+  }
+  
+  /* Optional: Shrink navbar slightly on scroll */
+  .navbar.scrolled {
+    padding: 0.5rem 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .navbar.scrolled .navbar-brand img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* Add some minimal responsive handling */
+  @media (max-width: 576px) {
+    .navbar-brand span {
+      font-size: 0.9rem;
+    }
+    
+    .btn {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+  }
+</style>
 <script>
 
 

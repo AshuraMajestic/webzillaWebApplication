@@ -1,33 +1,284 @@
-<link rel="stylesheet" href="css/footer.css" />
-<div class="footer container center">
-  <div class="row center">
-    <div class="col-8">
-      <div class="row">
-        <div class="col-6 left">
-          <div class="logo">
-            <a class="inside" href="/">
-              <img src="/img/placeholder.png" data-src="{{logoLink}}" alt="" srcset="" loading="lazy" />
-              {{!-- <img src="{{logoLink}}" alt="{{shopname}}" srcset="" /> --}}
-              <span>{{shopname}}</span>
-            </a>
-          </div>
-          <h5>Contact Details</h5>
-          <p>Address: {{address}}</p>
-          <p>Contact us: {{email}}</p>
+<style>
+   /* Footer Styles */
+.site-footer {
+  background-color: #f8f9fa;
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 60px;
+  border-top: 1px solid #eee;
+}
+
+.footer-main {
+  padding: 50px 0 30px;
+}
+
+.footer-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-heading:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background-color: #0d6efd;
+}
+
+/* Footer Logo */
+.footer-logo {
+  margin-bottom: 25px;
+}
+
+.footer-logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.footer-logo img {
+  max-height: 50px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Contact Information */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.contact-list i {
+  margin-right: 10px;
+  color: #0d6efd;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+/* Shop Categories */
+.category-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category-links li {
+  flex: 0 0 50%;
+  margin-bottom: 10px;
+}
+
+.category-links a {
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.category-links a:hover {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+/* Newsletter Form */
+.footer-newsletter p {
+  margin-bottom: 15px;
+}
+
+.newsletter-form {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.newsletter-form input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.newsletter-form button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Social Icons */
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: #e9ecef;
+  border-radius: 50%;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  background-color: #f1f3f5;
+  padding: 15px 0;
+  border-top: 1px solid #e9ecef;
+}
+
+.copyright {
+  margin: 0;
+  font-size: 14px;
+}
+
+.powered-by {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 14px;
+}
+
+.vendora-link {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+  color: #333;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.vendora-logo {
+  height: 20px;
+  margin-left: 5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+  .footer-info, .footer-categories, .footer-newsletter {
+    margin-bottom: 30px;
+  }
+  
+  .powered-by {
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .copyright {
+    text-align: center;
+  }
+  
+  .text-end {
+    text-align: center !important;
+  }
+}
+</style>
+<footer class="site-footer">
+  <div class="footer-main container">
+    <div class="row">
+      <div class="col-md-4 footer-info">
+        <div class="footer-logo">
+          <a href="/">
+            <img src="{{logoLink}}" data-src="{{logoLink}}" alt="{{shopname}}" class="lazy-load" loading="lazy" />
+            <span class="brand-name">{{shopname}}</span>
+          </a>
         </div>
-        <div class="col-6 shop">
-          <h5>Shop</h5>
+        
+        <div class="contact-details">
+          <h5 class="footer-heading">Contact Us</h5>
+          <ul class="contact-list">
+            <li>
+              <i class="fa-solid fa-location-dot"></i>
+              <span>{{address}}</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-envelope"></i>
+              <span>{{email}}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-4 footer-categories">
+        <h5 class="footer-heading">Shop Categories</h5>
+        <ul class="category-links">
           {{#each category}}
-          <a href="/"><span>{{this.name}}</span></a>
+          <li><a href="/{{../link}}/categoryPage?category={{this.name}}">{{this.name}}</a></li>
           {{/each}}
+        </ul>
+      </div>
+      
+      <div class="col-md-4 footer-newsletter">
+        <h5 class="footer-heading">Stay Updated</h5>
+        <p>Subscribe to receive updates on new products and special offers.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Your email address" class="form-control">
+          <button class="btn btn-primary">Subscribe</button>
+        </div>
+        <div class="social-icons">
+          <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="line"></div>
-<div class="copyright mb-5 center">
-  <span>POWERED BY WEBZILLA</span><img src="img/webzilla.png" alt="">
-</div>
-</div>
+  
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="copyright">© {{shopname}} {{currentYear}}. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6 text-end">
+          <div class="powered-by">
+            <span>POWERED BY</span>
+            <a href="https://vendora.com" target="_blank" class="vendora-link">
+              Vendora <img src="/img/webzilla.png" alt="Vendora" class="vendora-logo">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
 <script src="/js/bootstrap.min.js"></script>
+<script>
+  // Simple lazy loading for images
+  document.addEventListener("DOMContentLoaded", function() {
+    const lazyImages = document.querySelectorAll("img.lazy-load");
+    lazyImages.forEach(img => {
+      if (img.dataset.src) {
+        img.src = img.dataset.src;
+      }
+    });
+    
+    // Set current year
+    document.querySelectorAll('.copyright').forEach(el => {
+      el.innerHTML = el.innerHTML.replace('{{currentYear}}', new Date().getFullYear());
+    });
+  });
+</script>

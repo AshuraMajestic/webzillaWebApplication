@@ -42,6 +42,32 @@ hbs.registerHelper('multiply', function (a, b) {
     return a * b;
 });
 
+hbs.registerHelper('lte', function (a, b, options) {
+    if (a <= b) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
+  });
+  
+  // Value helper version (for use in subexpressions like {{#if (lte a b)}})
+  hbs.registerHelper('ltev', function (a, b) {
+    return a <= b;
+  });
+  
+  // Block helper version
+  hbs.registerHelper('eq', function (a, b, options) {
+    if (a === b) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
+  });
+  
+  // Value helper version
+  hbs.registerHelper('eqv', function (a, b) {
+    return a === b;
+  });
 
 hbs.registerHelper('ifIndexEquals', function (index, value, options) {
     if (index === value) {
@@ -566,5 +592,5 @@ app.get("/favicon.ico", (req, res) => res.status(204));
 
 // Start the server
 app.listen(port, () => {
-    console.log("Listening");
+    console.log(`Listening`+port);
 });

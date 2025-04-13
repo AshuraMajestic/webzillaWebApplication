@@ -6,40 +6,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Category</title>
     <link rel="stylesheet" href="/css/categoryPage.css" />
-
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Enhanced styles for better UI */
+        .bar {
+            margin-top: 30px;
+        }
+        
+        .wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            padding: 15px 0;
+        }
+        
+        .wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .wrapper::-webkit-scrollbar-thumb {
+            background-color: #cccccc;
+            border-radius: 10px;
+        }
+        
+        /* Updated styling for category options without rounded corners */
+        .option {
+            min-width: 120px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin: 0 8px;
+            padding: 15px 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        .option.active {
+            background-color: #0275d8;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .option.active:hover {
+            background-color: #0275d8;
+        }
+        
+        .option p {
+            margin: 0;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .products-style {
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .product {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product figure {
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .product img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product:hover img {
+            transform: scale(1.05);
+        }
+        
+        .product h6 {
+            margin-top: 10px;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .category-text {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        
+        .discounted {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        /* No results indicator */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 40px 0;
+            width: 100%;
+        }
+
+        /* Section titles */
+        .section-title {
+            position: relative;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 50px;
+            height: 3px;
+            background-color: #0275d8;
+        }
+    </style>
 </head>
 
 <body>
-
     {{>Navbar}}
 
     <div class="container bar">
-        <h2>Categories</h2>
+        <h2 class="section-title">Categories</h2>
         <div class="wrapper" id="wrapper">
+            <!-- Add ALL category at the beginning -->
+            <div class="item-1 option active" data-category="ALL">
+                <p>ALL</p>
+            </div>
+            
             {{#each category}}
-            <div class="item-1 mx-5 option" data-category="{{this.name}}">
-                <figure>
-                    <img src="{{this.image}}" alt="">
-                </figure>
+            <div class="item-1 option" data-category="{{this.name}}">
                 <p>{{this.name}}</p>
             </div>
             {{/each}}
         </div>
     </div>
+    
     <div class="container products-style">
-        <h2>Products</h2>
+        <h2 class="section-title">Products</h2>
         <section class="products center container">
             <div class="product row" id="productContainer">
                 {{#each productdata}}
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6 product product-selector"
                     onclick="changeToProductDetail('{{this.name}}')" data-category="{{this.category}}">
                     <figure>
-                        <img src="/img/placeholder.png" data-src="{{this.images.image_0}}" alt="{{this.name}}" srcset=""
-                            loading="lazy" />
+                        <img src="/img/placeholder.png" data-src="{{this.images.image_0}}" alt="{{this.name}}" 
+                            loading="lazy" class="lazy-load">
                     </figure>
                     <h6>{{this.name}}</h6>
                     <p class="category-text">{{this.category}}</p>
@@ -50,18 +187,59 @@
                     {{/if}}
                 </div>
                 {{/each}}
+                
+                <div class="no-results" id="noResults">
+                    <h4>No products found in this category</h4>
+                    <p>Try selecting a different category or check back later!</p>
+                </div>
             </div>
         </section>
     </div>
+    
     {{>footer}}
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Add click event listener to each category option
+            // Lazy loading for images
+            const lazyLoadImages = () => {
+                const lazyImages = document.querySelectorAll('.lazy-load');
+                
+                if ('IntersectionObserver' in window) {
+                    const imageObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy-load');
+                                imageObserver.unobserve(img);
+                            }
+                        });
+                    });
+                    
+                    lazyImages.forEach(img => imageObserver.observe(img));
+                } else {
+                    // Fallback for browsers that don't support IntersectionObserver
+                    lazyImages.forEach(img => {
+                        img.src = img.dataset.src;
+                    });
+                }
+            };
+            
+            // Initialize lazy loading
+            lazyLoadImages();
+            
+            // Category filtering
             const categoryOptions = document.querySelectorAll('.option');
+            const noResultsDiv = document.getElementById('noResults');
+            
             categoryOptions.forEach(option => {
                 option.addEventListener('click', function () {
+                    // Remove active class from all options
+                    categoryOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
                     const categoryName = this.dataset.category;
                     filterProductsByCategory(categoryName);
                 });
@@ -69,56 +247,98 @@
 
             function filterProductsByCategory(categoryName) {
                 const products = document.querySelectorAll('.product-selector');
+                let visibleProducts = 0;
+                
                 products.forEach(product => {
                     const productCategory = product.dataset.category;
-                    if (categoryName !== "ALL") {
-                        if (productCategory !== categoryName) {
-                            product.style.display = 'none';
-                        } else {
-                            product.style.display = 'block';
-                        }
-                    } else {
+                    
+                    if (categoryName === "ALL") {
                         product.style.display = 'block';
+                        visibleProducts++;
+                    } else if (productCategory === categoryName) {
+                        product.style.display = 'block';
+                        visibleProducts++;
+                    } else {
+                        product.style.display = 'none';
                     }
                 });
+                
+                // Show "no results" message if no products are visible
+                if (visibleProducts === 0) {
+                    noResultsDiv.style.display = 'block';
+                } else {
+                    noResultsDiv.style.display = 'none';
+                }
             }
-        });
-        function changeToProductDetail(productName) {
-            // Navigate to the product detail page using the product name
-            window.location.href = `/{{ link }}/productDetail?name=${productName}`;
-        }
-
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+            
+            // Enhanced horizontal scrolling for categories
             const wrapper = document.getElementById("wrapper");
             let isDown = false;
             let startX;
             let scrollLeft;
+            let isDragging = false;
 
             wrapper.addEventListener("mousedown", function (event) {
                 isDown = true;
                 startX = event.pageX - wrapper.offsetLeft;
                 scrollLeft = wrapper.scrollLeft;
+                wrapper.style.cursor = 'grabbing';
             });
 
             wrapper.addEventListener("mouseleave", function () {
                 isDown = false;
+                wrapper.style.cursor = 'grab';
             });
 
-            wrapper.addEventListener("mouseup", function () {
+            wrapper.addEventListener("mouseup", function (event) {
                 isDown = false;
+                wrapper.style.cursor = 'grab';
+                
+                // Handle click if not dragging
+                if (!isDragging) {
+                    const clickedOption = event.target.closest('.option');
+                    if (clickedOption) {
+                        const clickEvent = new Event('click');
+                        clickedOption.dispatchEvent(clickEvent);
+                    }
+                }
+                
+                isDragging = false;
             });
 
             wrapper.addEventListener("mousemove", function (event) {
                 if (!isDown) return;
                 event.preventDefault();
+                isDragging = true;
                 const x = event.pageX - wrapper.offsetLeft;
-                const walk = (x - startX) * 2; // You can adjust the multiplier to control the scrolling speed
+                const walk = (x - startX) * 2; // Scroll speed multiplier
+                wrapper.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Add touch support for mobile
+            wrapper.addEventListener('touchstart', function(e) {
+                isDown = true;
+                startX = e.touches[0].pageX - wrapper.offsetLeft;
+                scrollLeft = wrapper.scrollLeft;
+            });
+
+            wrapper.addEventListener('touchend', function() {
+                isDown = false;
+            });
+
+            wrapper.addEventListener('touchmove', function(e) {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.touches[0].pageX - wrapper.offsetLeft;
+                const walk = (x - startX) * 2;
                 wrapper.scrollLeft = scrollLeft - walk;
             });
         });
+        
+        function changeToProductDetail(productName) {
+            // Navigate to the product detail page using the product name
+            window.location.href = `/{{ link }}/productDetail?name=${encodeURIComponent(productName)}`;
+        }
     </script>
 </body>
-
 </html>
